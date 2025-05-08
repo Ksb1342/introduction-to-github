@@ -1,0 +1,22 @@
+#NoEnv
+SendMode Input
+SetWorkingDir %A_ScriptDir%
+
+; Открываем IE и разворачиваем на весь экран
+ie := ComObjCreate("InternetExplorer.Application")
+ie.Visible := true
+;  ie.FullScreen := true  ; Режим полноэкранный (не то же самое, что максимизировать)
+   ie.Navigate("https://www.tdpra.ru/status/")
+
+; Альтернатива - максимизация окна через WinAPI
+ WinWait, ahk_class IEFrame
+ WinMaximize, ahk_class IEFrame
+
+; Ждем загрузки
+while ie.ReadyState != 4 || ie.document.readyState != "complete"
+    Sleep, 500
+
+; Вводим данные
+ie.document.getElementById("phone-95553").value := "89087877943"
+ie.document.getElementsByClassName("status-button")[0].click()
+return
